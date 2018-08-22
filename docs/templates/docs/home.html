@@ -11,10 +11,10 @@
 </div>
 {% for document in documents.all %}
 <div class="row pt-3">
-  <div class="col-8" style="cursor: pointer;">
+  <div class="col-8" onclick="window.location='{% url 'detail' document.id %}';" style="cursor: pointer;">
       <h4>{{document.title}}</h4>
   </div>
-  <div class="col-4" style="cursor: pointer;">
+  <div class="col-4" onclick="window.location='{% url 'detail' document.id %}';" style="cursor: pointer;">
       <h4>{{document.pub_date_short}}</h4>
   </div>
 </div>

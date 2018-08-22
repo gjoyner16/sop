@@ -11,7 +11,7 @@
 {% comment %}
 Main Document Information
 {% endcomment %}
-<div class="border-bottom border-top text-center">
+<div class="border-top text-center">
   <br/>
   Title: {{document.title}},
   Description: {{document.description}}
@@ -25,14 +25,22 @@ Main Document Information
   <br/>
 </div>
 
+{% csrf_token %}
 {% for step in steps.all %}
 {% if step.title == document.title %}
-<div class="row pt-3">
+<div class="row border-top">
   <div class="col-1">
-      <h4>{{step.step_num}}</h4>
+      <p>{{step.step_num}}</p>
   </div>
-  <div class="col11">
-      <h4>{{document.title}}</h4>
+  <div class="col-5">
+      <p>{{step.step_nav}}</p>
+      <p>{{step.step_text}}</p>
+      <p>{{step.step_note}}</p>
+  </div>
+  <div class="col-6">
+    {% if step.step_image %}
+    <img src="{{ step.step_image.url }}" class="img-fluid" width="500" height="400"/>
+    {% endif %}
   </div>
 </div>
 {% endif %}
@@ -41,13 +49,15 @@ Main Document Information
 {% comment %}
 Create New Step
 {% endcomment %}
-<form id="add_step" method="POST" action="{% url 'add_step' document.id%}">
+<form id="add_step" method="POST" action="{% url 'add_step' document.id%}" enctype="multipart/form-data">
   {% csrf_token %}
-  <div class="row pt-3 mt-2 mb-3">
+  <div class="row pt-3 mt-2 mb-3 border-top">
     <div class="col-10">
+      Step Number: <input type="text" name="step_num" required/>
+      <br/>
       Navigation: <input type="text" name="step_nav"/>
       <br/>
-      Description: <input type="textbox" name="step_text"/>
+      Description: <input type="textbox" name="step_text" required/>
       <br/>
       Notes: <input type="textbox" name="step_note"/>
       <br/>
@@ -55,7 +65,7 @@ Create New Step
       <input type="file" name="step_image"/>
       <br/>
       <br/>
-      <input class="btn btn-primary" type="submit" value="Next Step"/>
+      <input class="btn btn-primary" type="submit" value="Add Step"/>
       <br/>
     </div>
   </div>
