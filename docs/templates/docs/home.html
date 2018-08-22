@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row pt-3 border-bottom">
+  <div class="col-8">
+      <h4>TITLE</h4>
+  </div>
+  <div class="col-4">
+      <h4>DATE</h4>
+  </div>
+</div>
+{% for document in documents.all %}
+<div class="row pt-3">
+  <div class="col-8" style="cursor: pointer;">
+      <h4>{{document.title}}</h4>
+  </div>
+  <div class="col-4" style="cursor: pointer;">
+      <h4>{{document.pub_date_short}}</h4>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+{{ error }}
+<br/>
+<br/>
+{% endif %}
+
+{% comment %}
+Main Document Information
+{% endcomment %}
+<form method="POST" action="{% url 'create' %}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="border-bottom border-top">
+    <br/>
+   Client: <select name="client">
+    <option value="def">Default</option>
+    <option value="polaris">Polaris</option>
+  </select>
+  Application: <select name="application">
+    <option value="jda">JDA/RP</option>
+    <option value="hj">Highjump</option>
+    <option value="sap">SAP</option>
+    <option value="o">Other</option>
+  </select>
+    Type: <select name="type">
+    <option value="rf">RF</option>
+    <option value="gui">GUI</option>
+    <option value="web">Web UI</option>
+  </select>
+  Category: <select name="category">
+    <option value="inventory">Inventory</option>
+    <option value="picking">Picking</option>
+    <option value="shipping">Shipping</option>
+    <option value="receiving">Receiving</option>
+  </select>
+  <br/>
+  <br/>
+  Title:
+  <input type="text" name="title"/>
+  Description:
+  <input type="textbox" name="description"/>
+  <br/>
+<br/>
+</div>
+  <br/>
+  <input class="btn btn-primary" type="submit" value="Save"/>
+  <br/>
+</form>
+
+{% endblock %}

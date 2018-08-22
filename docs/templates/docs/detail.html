@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+{{ error }}
+<br/>
+<br/>
+{% endif %}
+
+{% comment %}
+Main Document Information
+{% endcomment %}
+<div class="border-bottom border-top text-center">
+  <br/>
+  Title: {{document.title}},
+  Description: {{document.description}}
+  <br/>
+  <br/>
+  Client: {{document.client}},
+  Application: {{document.application}},
+  Type: {{document.type}},
+  Category: {{document.category}},
+  <br/>
+  <br/>
+</div>
+
+{% for step in steps.all %}
+{% if step.title == document.title %}
+<div class="row pt-3">
+  <div class="col-1">
+      <h4>{{step.step_num}}</h4>
+  </div>
+  <div class="col11">
+      <h4>{{document.title}}</h4>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% comment %}
+Create New Step
+{% endcomment %}
+<form id="add_step" method="POST" action="{% url 'add_step' document.id%}">
+  {% csrf_token %}
+  <div class="row pt-3 mt-2 mb-3">
+    <div class="col-10">
+      Navigation: <input type="text" name="step_nav"/>
+      <br/>
+      Description: <input type="textbox" name="step_text"/>
+      <br/>
+      Notes: <input type="textbox" name="step_note"/>
+      <br/>
+      Image:
+      <input type="file" name="step_image"/>
+      <br/>
+      <br/>
+      <input class="btn btn-primary" type="submit" value="Next Step"/>
+      <br/>
+    </div>
+  </div>
+</form>
+
+{% endblock %}
