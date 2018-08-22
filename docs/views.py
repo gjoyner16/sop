@@ -21,6 +21,7 @@ def create(request):
             document.category = request.POST['category']
             document.description = (request.POST['description']).capitalize()
             document.pub_date = timezone.datetime.now()
+            document.creator = request.user
             document.save()
             return redirect('/docs/detail/'+str(document.id))
         else:
@@ -30,7 +31,7 @@ def create(request):
 
 def detail(request, document_id):
     document = get_object_or_404(Document, pk=document_id)
-    steps = Step.objects
+    steps = Step.objects.all().order_by('step_num')
     return render(request, 'docs/detail.html',{'document':document, 'steps':steps})
 
 @login_required(login_url="/accounts/signup")

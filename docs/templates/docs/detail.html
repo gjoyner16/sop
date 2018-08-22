@@ -11,7 +11,7 @@
 {% comment %}
 Main Document Information
 {% endcomment %}
-<div class="border-top text-center">
+<div class="text-center border mb-4">
   <br/>
   Title: {{document.title}},
   Description: {{document.description}}
@@ -20,7 +20,7 @@ Main Document Information
   Client: {{document.client}},
   Application: {{document.application}},
   Type: {{document.type}},
-  Category: {{document.category}},
+  Category: {{document.category}}
   <br/>
   <br/>
 </div>
@@ -28,18 +28,22 @@ Main Document Information
 {% csrf_token %}
 {% for step in steps.all %}
 {% if step.title == document.title %}
-<div class="row border-top">
-  <div class="col-1">
-      <p>{{step.step_num}}</p>
+<div class="row border">
+  <div class="col-2 border-right">
+    <p> Step {{step.step_num}}</p>
   </div>
   <div class="col-5">
-      <p>{{step.step_nav}}</p>
-      <p>{{step.step_text}}</p>
-      <p>{{step.step_note}}</p>
+    <p class="border-bottom">Description: {{step.step_text}}</p>
+    <p class="border-bottom">Navigation: {{step.step_nav}}</p>
+    <p>Notes: {{step.step_note}}</p>
   </div>
-  <div class="col-6">
+  <div class="col-5 border-left">
     {% if step.step_image %}
+    Screenshot of Step:
+    <br/>
     <img src="{{ step.step_image.url }}" class="img-fluid" width="500" height="400"/>
+    {% else %}
+    N/A
     {% endif %}
   </div>
 </div>
@@ -51,7 +55,7 @@ Create New Step
 {% endcomment %}
 <form id="add_step" method="POST" action="{% url 'add_step' document.id%}" enctype="multipart/form-data">
   {% csrf_token %}
-  <div class="row pt-3 mt-2 mb-3 border-top">
+  <div class="row pt-3 mt-4 mb-3 border-top">
     <div class="col-10">
       Step Number: <input type="text" name="step_num" required/>
       <br/>
