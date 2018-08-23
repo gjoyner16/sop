@@ -9,9 +9,14 @@
   <h2 class="border-bottom">
     Directory
   </h2>
-  {% for clientfolder in clientfolders.all %}
-  <li class="border" onclick="window.location='{% url 'client' clientfolder.id %}';" style="cursor: pointer;">{{clientfolder.client}}</li>
-  {% endfor %}
+{% for clientfolder in clientfolders.all %}
+<li class="border" onclick="window.location='{% url 'client' clientfolder.id %}';" style="cursor: pointer;">{{clientfolder.client}}</li>
+    {% for categoryfolder in categoryfolders.all %}
+      {% if categoryfolder.client == clientfolder.client and clientfolder.id == clientfolder_id %}
+        <li onclick="window.location='{% url 'category' categoryfolder.id %}';" style="cursor: pointer;">{{categoryfolder.category}}</li>
+      {% endif %}
+    {% endfor %}
+{% endfor %}
 </h4>
 </br>
 </br>
