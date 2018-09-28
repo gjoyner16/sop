@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-6">
+  <h2 class="border-bottom">
+    Directory
+  </h2>
+  <h4>Home</h4>
+</br>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Client</th>
+      <th scope="col" class="text-center">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for client in clients %}
+    {% if client.user == request.user %}
+    <tr>
+      <td><a href="{% url 'client_detail' pk=client.pk %}"><span class="oi oi-person"></span> {{client.name}}</a></td>
+      <td width="100" class="text-center"><a href="{% url 'client_update' pk=client.pk %}"><span class="oi oi-pencil" data-toggle="tooltip" title="Edit"></span></a> | <a href="{% url 'client_delete' pk=client.pk %}"><span class="oi oi-trash" data-toggle="tooltip" title="Delete"></span></a></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+</br>
+<form method="GET" action="{% url 'client_create' %}">
+  {% csrf_token %}<input type="submit" value="New Client" class="btn btn-primary">
+</form>
+</div>
+
+{% endblock %}

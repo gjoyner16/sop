@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% csrf_token %}
+
+<div class="col-6">
+  <h2 class="border-bottom">
+    Directory
+  </h2>
+  <h4><a href="{% url 'client_list' %}">Home</a> > {{ client.name }}</h4>
+</br><table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Category</th>
+      <th scope="col" class="text-center">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category in client.categories.all %}
+    {% if category.user == request.user %}
+    <tr>
+      <td><a href="{% url 'category_detail' pk=category.pk client_id=category.client.id %}"><span class="oi oi-folder"></span> {{category.name}}</a></td>
+      <td width="100" class="text-center"><a href="{% url 'category_update' pk=category.pk client_id=category.client.id %}"><span class="oi oi-pencil" data-toggle="tooltip" title="Edit"></span></a> | <a href="{% url 'category_delete' pk=category.pk client_id=category.client.id %}"><span class="oi oi-trash" data-toggle="tooltip" title="Delete"></span></a></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+</br>
+<form method="GET" action="{% url 'category_create' pk=client.pk %}">
+  {% csrf_token %}<input type="submit" value="New Category" class="btn btn-primary">
+</form>
+</div>
+
+{% endblock %}

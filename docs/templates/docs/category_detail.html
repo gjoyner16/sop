@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% csrf_token %}
+
+<div class="col-6">
+    <h2 class="border-bottom">
+      Directory
+    </h2>
+    <h4><a href="{% url 'client_list' %}">Home</a> > <a href="{% url 'client_detail' pk=category.client.id %}">{{ category.client.name }}</a> > {{ category.name }}</h4>
+  </br><table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Document</th>
+        <th scope="col" class="text-center">Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for document in category.documents.all %}
+      {% if document.user == request.user %}
+      <tr>
+        <td><a href="{% url 'document_detail' pk=document.pk category_id=document.category.id client_id=document.client.id %}"><span class="oi oi-file"></span> {{document.name}}</a></td>
+        <td width="100" class="text-center"><a href="{% url 'document_update' pk=document.pk category_id=document.category.id client_id=document.client.id %}"><span class="oi oi-pencil" data-toggle="tooltip" title="Edit"></span></a> | <a href="{% url 'document_delete' pk=document.pk category_id=document.category.id client_id=document.client.id %}"><span class="oi oi-trash" data-toggle="tooltip" title="Delete"></span></a></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</br>
+<form method="GET" action="{% url 'document_create' pk=category.pk client_id=category.client.id %}">
+  {% csrf_token %}<input type="submit" value="New Document" class="btn btn-primary">
+</form>
+</div>
+
+{% endblock %}

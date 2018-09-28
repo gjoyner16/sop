@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 ]
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sopwizard.reset@gmail.com'
+EMAIL_HOST_PASSWORD = 'Welcome20?'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'sopwizard.reset@gmail.com'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,7 +87,7 @@ WSGI_APPLICATION = 'sop.wsgi.application'
 DATABASES = {
 'default': {
 'ENGINE': 'django.db.backends.postgresql',
-'NAME': 'sopdb',
+'NAME': 'sopdb2',
 'USER': 'postgres',
 'PASSWORD': 'Scooby123!',
 'HOST':'localhost',
@@ -104,6 +113,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_REDIRECT_URL = 'client_list'
 
 
 # Internationalization

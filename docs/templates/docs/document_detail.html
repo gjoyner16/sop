@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+{{ error }}
+<br/>
+<br/>
+{% endif %}
+
+{% load static %}
+
+<h4><a href="{% url 'client_list' %}">Home</a> > <a href="{% url 'client_detail' pk=document.client.id %}">{{ document.client.name }}</a> > <a href="{% url 'category_detail' pk=document.category.id client_id=document.client.id %}">{{ document.category.name }}</a></h4>
+<h2>{{ document.name }} <a href="{% url 'document_update' pk=document.pk category_id=document.category.id client_id=document.client.id %}"><span class="oi oi-pencil small" data-toggle="tooltip" title="Edit"></span></a> | <a href="{% url 'document_delete' pk=document.pk category_id=document.category.id client_id=document.client.id %}"><span class="oi oi-trash small" data-toggle="tooltip" title="Delete"></span></a></h2>
+<h4>{{ document.description }}</h4>
+<h4>
+  Author: {{ document.user.first_name }} {{ document.user.last_name }}
+</br>
+  Created: {{ document.pub_date }}
+</h4>
+<h4>{{ document.application }}, {{ document.version }}, {{ document.type }}</h4>
+<p><form method="GET" action="{% url 'generate_pdf' pk=document.id %}">
+  {% csrf_token %}<input type="submit" value="Generate PDF" class="btn btn-primary">
+</form></p>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col" width="50" class="text-center">Step</th>
+      <th scope="col" width="350">Text</th>
+      <th scope="col" width="250">Note</th>
+      <th scope="col">Image</th>
+      <th scope="col" width="60"></th>
+      <th scope="col" width="60"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for step in document.steps.all %}
+    <tr>
+      <th scope="row" class="text-center">{{ step.step_num }}</th>
+      <td>{{ step.text }}</td>
+      <td>
+        {% if step.note %}
+        {{ step.note }}
+        {% else %}
+        N/A
+        {% endif %}</td>
+      <td>
+        {% if step.image %}
+        <img src="{{ step.image.url }}" class="img img-fluid"/>
+        {% else %}
+        N/A
+        {% endif %}
+      </td>
+      <td class="text-center">
+        <form method="GET" action="{% url 'step_update' pk=step.pk document_id=document.id category_id=document.category.id client_id=document.client.id %}">
+          {% csrf_token %}<button type="submit" value="Update" class="btn btn-secondary" data-toggle="tooltip" title="Edit"><i class="oi oi-pencil small"></i></input>
+        </form>
+      </td>
+      <td class="text-center">
+        <form method="POST" action="{% url 'step_delete' pk=step.pk %}">
+          {% csrf_token %}<button type="submit" value="Delete" class="btn btn-secondary" data-toggle="tooltip" title="Delete"><i class="oi oi-trash small"></i>
+        </form>
+      </td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+
+<div>
+  <form method="GET" action="{% url 'step_create' pk=document.pk category_id=document.category.id client_id=document.client.id %}">
+    {% csrf_token %}<input type="submit" value="Add Step" class="btn btn-primary">
+  </form>
+</div>
+
+{% endblock %}
