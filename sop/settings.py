@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'sop.wsgi.application'
 DATABASES = {
 'default': {
 'ENGINE': 'django.db.backends.postgresql',
-'NAME': 'sopdb2',
+'NAME': 'sopdb',
 'USER': 'gjoyner',
 'PASSWORD': 'Scooby123!',
 'HOST':'localhost',
